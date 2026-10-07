@@ -12,24 +12,20 @@ import { taskValidationSchema } from '../schemas/taskSchema.js';
 const router = express.Router();
 
 router.use(protect);
-/** @swagger
+/**
+ * @swagger
  * /tasks:
  *   get:
- *     summary: Get user's tasks
- *     description: Retrieve all tasks for the authenticated user
+ *     summary: Get all tasks for the logged-in user
+ *     tags: [Tasks]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Tasks retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Task'
+ *         description: A list of tasks
  */
 router.get('/', getMyTasks);
+
 /**
  * @swagger
  * /tasks:
@@ -62,6 +58,59 @@ router.get('/', getMyTasks);
  */
 
 router.post('/', validate(taskValidationSchema), createTask);
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   put:
+ *     summary: Update a task by ID
+ *     tags: [Tasks]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Task ID
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Task updated
+ */
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   delete:
+ *     summary: Delete a task by ID
+ *     tags: [Tasks]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Task ID
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Task deleted
+ */
 router.put('/:id', validate(taskValidationSchema), updateTask);
 router.delete('/:id', deleteTask);
 
