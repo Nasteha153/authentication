@@ -1,4 +1,7 @@
 import swaggerJSDoc from 'swagger-jsdoc';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const options = {
   definition: {
@@ -10,7 +13,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:4000'
+        url: process.env.NODE_ENV == "Development" ? 'http://localhost:4000' : "https://authentication-3-cmb4.onrender.com/"
       }
     ],
     components: {
